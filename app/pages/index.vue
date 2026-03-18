@@ -1,8 +1,12 @@
 <template>
   <div class="home-page">
 
-    <div v-if="isLoading" class="loader">
-      <span>Chargement...</span>
+    <div v-if="isLoading" class="fullscreen-loader">
+      <div class="loader-icon">⛅</div>
+      <p class="loader-text">Chargement des données météo...</p>
+      <div class="loader-bar">
+        <div class="loader-bar-fill"></div>
+      </div>
     </div>
 
     <div class="search-wrapper">
@@ -258,16 +262,69 @@ const selectCity = async (c: typeof cities[0] | string) => {
 .city-card-temp { font-size: 24px; font-weight: 700; font-family: 'DM Sans', sans-serif; }
 .city-card-icon { font-size: 22px; }
 
+.fullscreen-loader {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FF8C00, #FFB347, #FFD700);
+  z-index: 9999;
+  gap: 16px;
+}
+
+.loader-icon {
+  font-size: 72px;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+.loader-text {
+  font-size: 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  color: rgba(0,0,0,0.7);
+}
+
+.loader-bar {
+  width: 200px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+
+.loader-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: rgba(0,0,0,0.4);
+  animation: loading 1.5s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes loading {
+  0% { width: 0%; margin-left: 0; }
+  50% { width: 70%; margin-left: 0; }
+  100% { width: 0%; margin-left: 100%; }
+}
+
 @media (max-width: 768px) {
   .home-page { padding: 0 16px; }
-  .main-weather { grid-template-columns: 1fr; gap: 16px; }
+  .search-wrapper { padding: 20px 0 12px; }
+  .search-box { max-width: 100%; }
+  .main-weather { grid-template-columns: 1fr; gap: 16px; padding: 12px 0 20px; }
   .city-name { font-size: 36px; letter-spacing: -1px; }
   .temp-number { font-size: 80px; letter-spacing: -4px; }
   .weather-right { grid-template-columns: 1fr 1fr; }
-  .forecast-row { gap: 4px; }
+  .forecast-row { gap: 4px; overflow-x: auto; }
   .forecast-day-name { font-size: 10px; }
   .forecast-temp { font-size: 14px; }
-  .search-box { max-width: 100%; }
+  .cities-scroll { gap: 8px; }
+  .city-card { min-width: 130px; padding: 12px; }
 }
 
 @media (max-width: 480px) {
@@ -276,6 +333,7 @@ const selectCity = async (c: typeof cities[0] | string) => {
   .weather-right { grid-template-columns: 1fr 1fr; gap: 8px; }
   .info-card { padding: 14px; }
   .info-value { font-size: 16px; }
-  .city-card { min-width: 140px; }
+  .city-card { min-width: 120px; }
+  .forecast-day { min-width: 40px; }
 }
 </style>

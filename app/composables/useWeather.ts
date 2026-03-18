@@ -67,21 +67,23 @@ export const useWeather = () => {
   ]
 
   const defaultCity: CityData = {
-  name: 'Abidjan',
-  country: "Côte d'Ivoire",
-  temp: 31,
-  feels: 34,
-  humidity: 78,
-  wind: 12,
-  uv: 9,
-  weather: 'sunny',
-  forecast: [32,30,29,33,31,30,28],
-  forecastMin: [24,23,22,25,24,23,22],
-  forecastW: ['sunny','partlyCloudy','rainy','sunny','sunny','partlyCloudy','rainy']
-}
+    name: 'Abidjan',
+    country: "Côte d'Ivoire",
+    temp: 31,
+    feels: 34,
+    humidity: 78,
+    wind: 12,
+    uv: 9,
+    weather: 'sunny',
+    forecast: [32,30,29,33,31,30,28],
+    forecastMin: [24,23,22,25,24,23,22],
+    forecastW: ['sunny','partlyCloudy','rainy','sunny','sunny','partlyCloudy','rainy']
+  }
+
   const selectedCity = useState<CityData>('selectedCity', () => defaultCity)
   const city = computed<CityData>(() => selectedCity.value ?? defaultCity)
-  const isLoading = useState<boolean>('isLoading', () => false)
+  const isLoading = useState<boolean>('isLoading', () => true)
+  const apiSuccess = useState<boolean>('apiSuccess', () => false)
   const error = useState<string | null>('error', () => null)
 
   const getCache = (): Cache => {
@@ -143,6 +145,7 @@ export const useWeather = () => {
     if (cached) {
       selectedCity.value = apiToCity(cached)
       isLoading.value = false
+      apiSuccess.value = true
       return
     }
 
@@ -150,10 +153,12 @@ export const useWeather = () => {
       const data = await $fetch<CityWeather>(`${API_BASE}/${cityName}`)
       setCache(cityName, data)
       selectedCity.value = apiToCity(data)
+      apiSuccess.value = true
     } catch (err) {
       error.value = 'Impossible de récupérer les données météo'
       const fallback = staticCities.find(c => c.name.toLowerCase() === cityName.toLowerCase())
       if (fallback) selectedCity.value = fallback
+      apiSuccess.value = false
     } finally {
       isLoading.value = false
     }
@@ -165,6 +170,7 @@ export const useWeather = () => {
     selectedCity,
     city,
     isLoading,
+    apiSuccess,
     error,
     fetchCity,
   }

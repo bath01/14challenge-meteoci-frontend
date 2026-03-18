@@ -154,7 +154,7 @@ const hourlyData = computed(() => {
 .condition-icon { font-size: 48px; display: block; margin: 8px 0; }
 .condition-label { font-size: 14px; font-weight: 600; font-family: 'DM Sans', sans-serif; margin: 0; }
 
-.hourly-card { margin-bottom: 40px; }
+/* .hourly-card { margin-bottom: 40px; }
 
 .hourly-chart {
   display: flex;
@@ -176,7 +176,46 @@ const hourlyData = computed(() => {
 
 .hourly-temp { font-size: 9px; font-family: 'DM Sans', sans-serif; }
 .hourly-bar { width: 100%; border-radius: 4px 4px 0 0; transition: all 0.3s; min-height: 4px; }
-.hourly-time { font-size: 8px; font-family: 'DM Sans', sans-serif; }
+.hourly-time { font-size: 8px; font-family: 'DM Sans', sans-serif; } */
+
+.hourly-card { margin-bottom: 40px; overflow: hidden; }
+
+.hourly-chart {
+  display: flex;
+  align-items: flex-end;
+  height: 120px;
+  gap: 2px;
+  margin-top: 16px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.hourly-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  height: 100%;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.hourly-temp { font-size: 9px; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+.hourly-bar { width: 100%; border-radius: 4px 4px 0 0; transition: all 0.3s; min-height: 4px; }
+.hourly-time { font-size: 8px; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+
+@media (max-width: 768px) {
+  .hourly-chart { gap: 1px; height: 100px; }
+  .hourly-temp { font-size: 0; }
+  .hourly-time { display: none; }
+  .hourly-bar { border-radius: 2px 2px 0 0; }
+}
+
+@media (max-width: 480px) {
+  .hourly-chart { height: 80px; }
+}
 
 @media (max-width: 768px) {
   .details-page { padding: 24px 16px; }
@@ -185,9 +224,13 @@ const hourlyData = computed(() => {
   .details-grid-bottom { grid-template-columns: 1fr 1fr; }
   .stat-value { font-size: 28px; }
   .hourly-time { display: none; }
+  .glass-card { padding: 20px; }
 }
 
 @media (max-width: 480px) {
   .details-grid-top { grid-template-columns: 1fr; }
+  .details-grid-bottom { grid-template-columns: 1fr; }
+  .stat-value { font-size: 24px; }
+  .details-city { font-size: 24px; }
 }
 </style>

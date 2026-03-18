@@ -175,5 +175,12 @@ const getInitials = (name: string) =>
   .about-grid { grid-template-columns: 1fr; }
   .about-title { font-size: 20px; }
   .about-text { font-size: 14px; }
+  .glass-card { padding: 20px; }
+}
+
+@media (max-width: 480px) {
+  .about-title { font-size: 18px; }
+  .member-name { font-size: 12px; }
+  .member-role { font-size: 10px; }
 }
 </style>

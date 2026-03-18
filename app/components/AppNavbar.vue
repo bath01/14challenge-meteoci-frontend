@@ -42,7 +42,7 @@ const navItems = [
 ]
 </script>
 
-<style scoped>
+< scoped>
 .app-nav {
   position: sticky;
   top: 0;
@@ -134,22 +134,33 @@ const navItems = [
         </span>
       </div>
 
-      <div class="nav-links">
+      <!-- Liens desktop -->
+      <div class="nav-links" :class="{ open: menuOpen }">
         <NuxtLink
           v-for="item in navItems"
           :key="item.key"
           :to="item.path"
           class="nav-link"
-          active-class="active">
+          active-class="active"
+          @click="menuOpen = false">
           {{ item.label }}
         </NuxtLink>
       </div>
+
+      <!-- Hamburger mobile -->
+      <button class="hamburger" @click="menuOpen = !menuOpen">
+        <span :class="{ open: menuOpen }"></span>
+        <span :class="{ open: menuOpen }"></span>
+        <span :class="{ open: menuOpen }"></span>
+      </button>
 
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
+const menuOpen = ref(false)
+
 const navItems = [
   { key: 'home',     label: 'Accueil',    path: '/' },
   { key: 'details',  label: 'Détails',    path: '/details' },
@@ -176,6 +187,7 @@ const navItems = [
   justify-content: space-between;
   align-items: center;
   height: 56px;
+  position: relative;
 }
 
 .nav-brand {
@@ -223,4 +235,67 @@ const navItems = [
 
 .nav-link:hover { color: #fff; }
 .nav-link.active { font-weight: 700; color: #fff; }
+
+/* ——— Hamburger ——— */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+
+.hamburger span {
+  width: 22px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: all 0.3s;
+  display: block;
+}
+
+/* Animation hamburger → croix */
+.hamburger span:nth-child(1).open {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger span:nth-child(2).open {
+  opacity: 0;
+}
+.hamburger span:nth-child(3).open {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ——— Mobile ——— */
+@media (max-width: 768px) {
+  .app-nav { padding: 0 16px; }
+
+  .hamburger { display: flex; }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 56px;
+    left: -16px;
+    right: -16px;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px);
+    padding: 8px 24px 16px;
+    gap: 0;
+    z-index: 999;
+  }
+
+  .nav-links.open { display: flex; }
+
+  .nav-link {
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    font-size: 15px;
+    width: 100%;
+  }
+
+  .nav-link:last-child { border-bottom: none; }
+}
 </style>

@@ -130,14 +130,17 @@ const tempMins = computed(() =>
 @media (max-width: 768px) {
   .forecast-page { padding: 24px 16px; }
   .forecast-title { font-size: 26px; }
-  .forecast-row { padding: 14px 16px; gap: 8px; }
+  .forecast-row { padding: 12px 16px; gap: 8px; }
   .forecast-condition { display: none; }
   .forecast-day { width: 45px; }
   .temp-bar { width: 50px; }
+  .day-name { font-size: 13px; }
 }
 
 @media (max-width: 480px) {
   .temp-min { display: none; }
   .temp-bar { display: none; }
+  .forecast-row { padding: 10px 12px; }
+  .forecast-icon { font-size: 22px; }
 }
 </style>
